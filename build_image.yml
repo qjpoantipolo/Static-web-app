@@ -1,0 +1,22 @@
+---
+- name: Build Docker Image for Portfolio App
+  hosts: localhost  # Runs on the control node
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Build the Docker image from the Dockerfile
+      docker_image:
+        name: portfolio-app
+        tag: latest
+        source: build
+        build:
+          path: .  # Assumes Dockerfile and index.html are in the current directory
+        state: present
+      register: build_result
+      failed_when: build_result.failed
+
+    - name: Display build status
+      debug:
+        msg: "Docker image 'portfolio-app:latest' built successfully."
+      when: build_result.changed

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Academic Portfolio Showcase</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/heroicons@2.1.3/dist/heroicons-all.js"></script>
+    <style>
+        /* Base background: Deep, uniform dark blue-gray (closer to Vanta Black but with blue undertone) */
+        body {
+            background-color: #0d1117; 
+            color: #c9d1d9; /* Lighter text for good contrast */
+            font-family: 'Inter', sans-serif; 
+        }
+        
+        /* Main Header Box - Clean, slightly rounded, with focus on internal depth */
+        header {
+            background-color: #161b22; /* Slightly elevated background */
+            border-radius: 1rem; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Soft, centered drop shadow */
+            border: 1px solid #30363d; /* Subtle outer border */
+            
+        }
+        header h1 {
+            color: #58a6ff; /* Modern, soft blue accent for the main title */
+            font-weight: 700; 
+        }
+        header p {
+            color: #8b949e; /* Subdued gray for the subtitle */
+        }
+        
+        /* Main Portfolio Cards - Modern, clean depth */
+        .portfolio-card {
+            background-color: #161b22; 
+            border-radius: 0.75rem; /* Standard modern rounding */
+            box-shadow: 0 1px 0 rgba(139, 148, 158, 0.1), /* Subtle light top edge */
+                        0 2px 8px rgba(0, 0, 0, 0.5); /* Deep bottom shadow */
+            border: 1px solid #30363d; 
+            transition: all 0.2s ease-in-out;
+        }
+
+        /* Modern Hover Effect: Lift, subtle blue glow/border */
+        .portfolio-card:hover {
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 
+                        0 0 0 2px rgba(88, 166, 255, 0.4); /* Soft blue outer ring */
+        }
+
+        /* Dividers */
+        .portfolio-card .border-b {
+            border-color: #30363d; 
+        }
+
+        /* Team Lead/Member Tags - Pill-shaped, muted colors */
+        .badge-team-lead {
+            background-color: #238636; /* GitHub green */
+            color: #ffffff; 
+        }
+        .badge-member {
+            background-color: #484f58; /* Muted gray/slate */
+            color: #c9d1d9; 
+        }
+        
+        /* Activity Items (Details) - Very clean and integrated into the card */
+        .activity-item {
+            background-color: transparent; /* Makes the item seamless with the card */
+            border: none; /* Removes separate item border */
+            border-radius: 0.5rem; 
+            transition: background-color 0.15s ease-in-out;
+            margin-bottom: 0.5rem;
+        }
+        .activity-item:hover {
+            background-color: #1f2937; /* Very subtle background change on hover */
+        }
+
+        .activity-item summary {
+            color: #c9d1d9; 
+            font-weight: 600; 
+            padding: 0.75rem 0.5rem; /* Reduced padding to look sleeker */
+            border-bottom: 1px solid transparent; /* No internal divider by default */
+        }
+        
+        /* Separator line when details is open */
+        details[open] summary {
+             border-bottom-color: #30363d; 
+        }
+
+        .activity-item .activity-content {
+            background-color: transparent; /* Keep seamless */
+            color: #8b949e; 
+            padding: 0.5rem 0.5rem 1rem;
+            border-top: none; 
+        }
+
+        /* Status colors adjusted for modern dark mode (high saturation, clear contrast) */
+        .text-red-600 { color: #f85149; } /* Brighter, clear red */
+        .text-green-600 { color: #3fb950; } /* Brighter, clear green */
+        .text-yellow-500 { color: #d29922; } /* Muted but clear yellow/orange */
+        .text-gray-500 { color: #8b949e; } 
+        
+        /* Grade text styling */
+        .grade-details-text {
+            color: #8b949e; /* Muted gray for description text */
+        }
+
+        /* Chevron icon color */
+        .activity-item summary svg {
+            color: #8b949e; 
+        }
+    </style>
+</head>
+<body class="font-sans antialiased">
+
+    <div class="min-h-screen container mx-auto p-4 md:p-10 lg:p-16">
+        <header class="text-center py-12 mb-20">
+            <h1 class="text-4xl md:text-6xl tracking-tight">
+                Static Website Portfolio Showcase
+            </h1>
+            <p class="mt-4 text-xl font-light">
+                A repository of deliverables and personal reflections.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
+
+            <div id="card-content-template" class="hidden">
+                <div class="space-y-2">
+                    
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Prelim HOA
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <div>
+                                <p class="text-sm grade-details-text">Hands on Activity 1.1 Creating Virtual Machines.</p>
+                                <p class="text-base font-bold text-red-600 flex items-center">
+                                    Grade: 83.33/100 
+                                    <svg class="h-5 w-5 ml-2 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.86 18a2 2 0 0 0 1.74 3h16.8a2 2 0 0 0 1.74-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                </p>
+                            </div>
+                            <div>
+                                <p class="text-sm grade-details-text">Hands on Activity 2.1 SSH Key-Based Authentication and GIT Setup.</p>
+                                <p class="text-base font-bold text-green-600 flex items-center">
+                                    Grade: 20/24 
+                                    <svg class="h-5 w-5 ml-2 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </p>
+                            </div>
+                            </div>
+                    </details>
+
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Midterm HOA
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <div>
+                                <p class="text-sm grade-details-text">Hands on Activity 6.1 Targeting Specific Nodes.</p>
+                                <p class="text-base font-bold text-green-600 flex items-center">
+                                    Grade: 24/24 
+                                    <svg class="h-5 w-5 ml-2 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                </p>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Finals HOA
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <p class="text-sm grade-details-text">Hands on Activity 11.1 Containerization.</p>
+                            <p class="text-base font-semibold text-yellow-500 flex items-center">
+                                Grade: Not Graded 
+                                <svg class="h-5 w-5 ml-2 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </p>
+                        </div>
+                    </details>
+                    
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Prelim Exam
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <p class="text-base font-bold text-red-600 flex items-center">
+                                Score: 25/100 
+                                <svg class="h-5 w-5 ml-2 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.86 18a2 2 0 0 0 1.74 3h16.8a2 2 0 0 0 1.74-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Midterm Exam
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <p class="text-base font-bold text-green-600 flex items-center">
+                                Score: 13/20 
+                                <svg class="h-5 w-5 ml-2 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Final Exam
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <p class="text-base font-semibold text-yellow-500 flex items-center">
+                                Score: Not Graded 
+                                <svg class="h-5 w-5 ml-2 text-yellow-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            </p>
+                        </div>
+                    </details>
+
+                    <details class="group activity-item cursor-pointer overflow-hidden">
+                        <summary class="flex justify-between items-center px-4 py-3">
+                            Reflection and Learnings
+                            <svg class="h-5 w-5 transform transition-transform group-open:rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </summary>
+                        <div class="px-4 space-y-3 activity-content">
+                            <p class="text-base leading-relaxed">
+                                I learned about different things in Automating Server Management.
+                            </p>
+                        </div>
+                    </details>
+
+                </div>
+            </div>
+            
+            <div id="ronn-lombog" class="portfolio-card p-8">
+                <div class="border-b pb-4 mb-6">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-1">Ronn Xherxes Lombog</h2>
+                    <span class="inline-block badge-team-lead text-sm font-semibold px-3 py-1 rounded-full">
+                        Team Lead
+                    </span>
+                </div>
+                <div id="ronn-content"></div>
+            </div>
+            
+            <div id="glenn-tiobengco" class="portfolio-card p-8">
+                <div class="border-b pb-4 mb-6">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-1">Glenn Gil Tiobengco</h2>
+                    <span class="inline-block badge-member text-sm font-semibold px-3 py-1 rounded-full">
+                        Member
+                    </span>
+                </div>
+                <div id="glenn-content"></div>
+            </div>
+
+            <div id="harvey-moras" class="portfolio-card p-8">
+                <div class="border-b pb-4 mb-6">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-1">Harvey Jayrell Moras</h2>
+                    <span class="inline-block badge-member text-sm font-semibold px-3 py-1 rounded-full">
+                        Member
+                    </span>
+                </div>
+                <div id="harvey-content"></div>
+            </div>
+
+            <div id="john-antipolo" class="portfolio-card p-8">
+                <div class="border-b pb-4 mb-6">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-1">John Paul Antipolo</h2>
+                    <span class="inline-block badge-member text-sm font-semibold px-3 py-1 rounded-full">
+                        Member
+                    </span>
+                </div>
+                <div id="john-content"></div>
+            </div>
+
+        </div>
+
+        <footer class="mt-24 py-8 text-center text-sm border-t border-[#30363d] text-[#8b949e]">
+            &copy; 2025 Academic Portfolio Showcase. Built with HTML and Tailwind CSS.
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript to clone the content structure into all member cards
+        const contentHtml = document.getElementById('card-content-template').innerHTML;
+        
+        document.getElementById('ronn-content').innerHTML = contentHtml;
+        document.getElementById('glenn-content').innerHTML = contentHtml;
+        document.getElementById('harvey-content').innerHTML = contentHtml;
+        document.getElementById('john-content').innerHTML = contentHtml;
+
+        // Remove the hidden template structure from the DOM
+        document.getElementById('card-content-template').remove();
+    </script>
+
+</body>
+</html>

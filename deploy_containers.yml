@@ -1,0 +1,37 @@
+---
+- name: Deploy and Run Portfolio App Containers on VMs
+  hosts: centos:ubuntu  # Targets both CentOS and Ubuntu groups
+  become: true  # Use sudo for Docker commands
+  gather_facts: true
+
+  tasks:
+    - name: Ensure Docker is running
+      service:
+        name: docker
+        state: started
+        enabled: true
+      when: ansible_distribution in ['CentOS', 'Ubuntu']
+
+    - name: Pull the portfolio-app image (if not present)
+      docker_image:
+        name: portfolio-app:latest
+        source: pull
+      register: pull_result
+      failed_when: pull_result.failed
+
+    - name: Run the portfolio-app container
+      docker_container:
+        name: portfolio-container
+        image: portfolio-app:latest
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "8080:80"  # Map host port 8080 to container port 80
+        detach: true
+      register: container_result
+      failed_when: container_result.failed
+
+    - name: Display deployment status
+      debug:
+        msg: "Container 'portfolio-container' is running on {{ inventory_hostname }}. Access at http://{{ ansible_host }}:8080"
+      when: container_result.changed
