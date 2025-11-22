@@ -1,51 +1,50 @@
 ---
-- name: Deploy and Run Portfolio App (Build on Target)
-  hosts: centos:ubuntu
-  become: true
-  gather_facts: true
-
+- name: Deploy Docker container on all VMs
+  hosts: all
+  become: yes
   tasks:
-    - name: Ensure Docker is running
+    - name: Check if docker installed (CentOS)
+      when: ansible_os_family == "RedHat"
+      command: docker --version
+      register: docker_installed
+      ignore_errors: true
+
+    - name: Install Docker (CentOS)
+      when: ansible_os_family == "RedHat" and docker_installed.failed
+      shell: |
+        curl -fsSL https://get.docker.com/ | sh
+
+    - name: Install Docker (Ubuntu)
+      when: ansible_os_family == "Debian"
+      apt:
+        name: docker.io
+        state: present
+        update_cache: yes
+
+    - name: Start docker
       service:
         name: docker
         state: started
-        enabled: true
-      when: ansible_distribution in ['CentOS', 'Ubuntu']
+        enabled: yes
 
-    # Step 1: Create a folder on the server to hold our files
-    - name: Create app directory on remote server
-      file:
-        path: /opt/portfolio-app
-        state: directory
-        mode: '0755'
-
-    # Step 2: Copy index.html and Dockerfile to the server
-    - name: Copy app files to remote server
+    - name: Copy docker tarball to remote host
       copy:
-        src: "{{ item }}"
-        dest: /opt/portfolio-app/
-      loop:
-        - index.html
-        - Dockerfile
+        src: "{{ playbook_dir }}/portfolio-app.tar"
+        dest: /tmp/portfolio-app.tar
 
-    # Step 3: Build the image RIGHT HERE on the server
-    - name: Build the Docker image on the remote server
-      docker_image:
-        name: portfolio-app
+    - name: Load docker image
+      community.docker.docker_image:
+        name: docker.io/library/portfolio-app:latest
         tag: latest
-        source: build
-        build:
-          path: /opt/portfolio-app # Build from the folder we just filled
+        source: load
+        load_path: /tmp/portfolio-app.tar
         state: present
-        force_source: true # Force rebuild to pick up changes
 
-    # Step 4: Run the container
-    - name: Run the portfolio-app container
-      docker_container:
-        name: portfolio-container
-        image: portfolio-app:latest
+    - name: Run portfolio-app container
+      community.docker.docker_container:
+        name: portfolio-app
+        image: docker.io/library/portfolio-app:latest
         state: started
-        restart_policy: unless-stopped
+        restart_policy: always
         ports:
-          - "8080:80"
-        detach: true
+          - "83:80"

@@ -1,22 +1,27 @@
 ---
-- name: Build Docker Image for Portfolio App
-  hosts: localhost  # Runs on the control node
+- name: Build docker image for web app
+  hosts: localhost
+  gather_facts: yes
+  become: yes
   connection: local
-  gather_facts: false
-
   tasks:
-    - name: Build the Docker image from the Dockerfile
-      docker_image:
-        name: portfolio-app
-        tag: latest
-        source: build
-        build:
-          path: .  # Assumes Dockerfile and index.html are in the current directory
+    - name: Install docker
+      when: ansible_os_family == "Debian"
+      apt:
+        name: docker.io
         state: present
-      register: build_result
-      failed_when: build_result.failed
+        update_cache: yes
 
-    - name: Display build status
-      debug:
-        msg: "Docker image 'portfolio-app:latest' built successfully."
-      when: build_result.changed
+    - name: Build docker image
+      community.docker.docker_image:
+        name: portfolio-webapp
+        tag: latest
+        build:
+          path: .
+          dockerfile: dockerfile
+          nocache: yes
+        source: build
+        force_source: yes
+
+    - name: Save docker to tarball
+      command: docker save portfolio-app:latest -o ./portfolio-webapp.tar
